@@ -7,18 +7,17 @@
 // 简单工厂模式：每次创建，都会返回一个新的对象
 var simpleFactory = function(name) {
     var obj  = new Object();
-    obj.name
-
+    obj.name = name;
     return obj;
 }
 
-// 安全工厂模式：创建一个单例模式，然后每次都调用此实例中的不同方法
-var safeFactory = function(type, content) {
+// 安全工厂模式：创建一个单例模式，然后每次都调用此实例中的不同实例化的类
+var safeFactory = function(type, arg) {
     if(this instanceof safeFactory) {
-      var s = new this[type] = (content);
+      var s = new this[type](arg); // 实例化prototype里面的类
       return s;
     } else {
-      return new safeFactory(type, content);
+      return new safeFactory(type, arg); // 实例化safefactory本身
     }
 }
 
