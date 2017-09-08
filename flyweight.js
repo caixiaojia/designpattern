@@ -7,7 +7,6 @@ var FlayWightObj = function() {
   funtion create() {
     return dom;
   }
-  returmn {
     getDiv: function() {
 
     }
