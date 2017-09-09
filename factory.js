@@ -22,12 +22,12 @@ var safeFactory = function(type, arg) {
 }
 
 // 抽象工厂模式：验证传入参数，然后进行寄生式组合继承
-var vehicleFactory = funcion(subType, superType) {
+var vehicleFactory = function(subType, superType) {
     if(typeof vehicleFactory[superType] === 'function') {
       prototype = Object(superType);
       prototype.constructor = subType;
       subType.prototype = prototype;
     } else {
-      thro new Error('未创建该抽象类')
+      throw new Error('未创建该抽象类')
     }
 }
