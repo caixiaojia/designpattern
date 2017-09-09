@@ -1,4 +1,6 @@
 // 观察者模式
+// 双向通信，既是消息的发送者，也是消息的创造者／有别于中介者模式
+
 var Objserver = (function() {
     var _messages = {};
     return {

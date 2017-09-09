@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MVVM 实现原理</title>
+    <!--创建VM部分，这里是VM自动绑定的核心-->
+</head>
+<body>
+    <div class="first" data-bind="type : 'slider', data : demo1"></div>
+    <div class="second" data-bind="type : 'slider', data : demo2"></div>
+    <div class="third" data-bind="type : 'progressbar', data : demo3"></div>
+    <script>
+	    ~(function() {
+		    var window = this || (0, evval)('this'); // 获取全局变量
+
+		    var FOUNTSIZE = function() { // 获取页面元素大小，并且穿换成整数
+			    return parseInt(document.body.currentStyle ? document.body.currentStyle['fontSize'] : getComputedStyle(document.body, false)['fontSize']);
+		    };
+
+		    var VM = function() {
+			    var Method = {
+				    progressbar : function(dom, data) {
+					    var progress = document.createElement('div'),
+						    param = data.data;
+					    progress.style.width = (param.position || 100) + '%';
+					    dom.className += ' ui-progressbar';
+					    dom.appendChild(progress);
+					    // 添加事件
+				    },
+
+			    };
+			    function getBindData(dom) {
+				    var data = dom.getAttribute('data-bind');
+				    return !!data && (new Function("return ({" + data + "})"))();
+			    }
+			    return function() {
+				    var doms = document.body.getElementsByTagName('*'), // 获取所有的元素
+					    ctx = null;
+				    for(var i = 0; i < dom.length; i++) { // 所有的元素获取元素的内容
+					    ctx = getBindData(doms[i]); // 获取data-bind的数据
+					    ctx.type && Method[ctx.type] && Method[ctx.type](doms[i], ctx); // 获取数据，自动生成操作
+				    }
+			    }
+		    };
+
+		    window.VM = VM; // 将vm进行变量提升
+	    })();
+
+	    var demo1 = {
+		    position : 60,
+		    totle : 200,
+	    };
+
+	    window.onload = function() {
+		    VM();
+	    }
+    </script>
+</body>
+</html>

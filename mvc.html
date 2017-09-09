@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--这个需要再次进行封装，不用直接在mvc中进行操作，提供友好的API进行操作-->
+<head>
+    <meta charset="UTF-8">
+    <title>MVC 模式</title>
+</head>
+<body>
+<script>
+    ~(function() {
+	    var window = this || (0, evval)('this'); // 获取全局变量
+        var MVC = MVC || {};
+        MVC.model = function() {
+           var M = {};
+           M.data = {}; // k为组件，放入数据
+           M.conf = {}; // k为组件，放入配置
+           return {
+               getData : function(m) {
+                    return M.data[m];
+                },
+               getConf : function(c) {
+                    return M.conf[c];
+               },
+               setData : function(m, v) {
+                  M.data[m] = v;
+                  return this;
+               },
+               setConf : function(c, v) {
+                  M.conf[c] = v;
+                  return this;
+               }
+
+           }
+        };
+        MVC.view = function() {
+        	var M = MVC.model;
+        	var V = {};// key为组件名称,v为放入模版文件
+        	return function(v) {
+               V[v]();
+	        }
+        };
+        MVC.controller = function() {
+        	var M = MVC.model;
+        	var V = MVC.view;
+        	var c = {}; //key为组件名称，从model获取数据，从view获取结构，在contr绑定
+        };
+        window.MVC = MVC;
+    })();
+    window.onload = function() {
+       MVC();
+    }
+</script>
+</body>
+</html>
